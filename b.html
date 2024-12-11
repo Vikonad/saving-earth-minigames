@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trash Sorting Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f8ff;
+    }
+    h1 {
+      color: #4CAF50;
+    }
+    #game-container {
+      margin: 20px auto;
+      width: 80%;
+      max-width: 600px;
+      display: flex;
+      justify-content: space-around;
+    }
+    .bin {
+      width: 100px;
+      height: 150px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      text-align: center;
+      padding: 10px;
+      background-color: #e0e0e0;
+    }
+    #trash-item {
+      margin: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #score {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Trash Sorting Game</h1>
+  <p>Sort the trash item into the correct bin!</p>
+  <div id="game-container">
+    <div class="bin" id="recycling">Recycling</div>
+    <div class="bin" id="compost">Compost</div>
+    <div class="bin" id="landfill">Landfill</div>
+  </div>
+  <div id="trash-item"></div>
+  <button onclick="startGame()">Start Game</button>
+  <div id="score">Score: 0</div>
+
+  <script>
+    const trashItems = [
+      { name: "Plastic Bottle", type: "recycling" },
+      { name: "Apple Core", type: "compost" },
+      { name: "Pizza Box", type: "landfill" },
+      { name: "Aluminum Can", type: "recycling" },
+      { name: "Banana Peel", type: "compost" },
+      { name: "Styrofoam Cup", type: "landfill" },
+    ];
+
+    let currentTrash = {};
+    let score = 0;
+
+    function startGame() {
+      // Pick a random trash item
+      currentTrash = trashItems[Math.floor(Math.random() * trashItems.length)];
+      document.getElementById("trash-item").textContent = `Trash: ${currentTrash.name}`;
+    }
+
+    function checkAnswer(binType) {
+      if (currentTrash.type === binType) {
+        alert("Correct!");
+        score++;
+      } else {
+        alert("Wrong bin! Try again.");
+      }
+      updateScore();
+      startGame();
+    }
+
+    function updateScore() {
+      document.getElementById("score").textContent = `Score: ${score}`;
+    }
+
+    // Add event listeners for bins
+    document.getElementById("recycling").addEventListener("click", () => checkAnswer("recycling"));
+    document.getElementById("compost").addEventListener("click", () => checkAnswer("compost"));
+    document.getElementById("landfill").addEventListener("click", () => checkAnswer("landfill"));
+  </script>
+</body>
+</html>
