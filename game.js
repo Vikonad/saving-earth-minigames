@@ -7,20 +7,25 @@ let targets = [];
 let bullets = [];
 let score = 0;
 
-// Load the target image
-const targetImage = new Image();
-targetImage.src = './images/target.png';
+// Load the target images
+const targetImages = ['./images/target1.png', './images/target2.png', './images/target3.png'];
+const loadedImages = targetImages.map((src) => {
+    const img = new Image();
+    img.src = src;
+    return img;
+});
 
 class Target {
-    constructor(x, y) {
+    constructor(x, y, image) {
         this.x = x;
         this.y = y;
         this.width = 50;
         this.height = 50;
+        this.image = image;
     }
 
     draw() {
-        ctx.drawImage(targetImage, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 }
 
@@ -49,7 +54,10 @@ class Bullet {
 function spawnTarget() {
     const x = Math.random() * (canvas.width - 50);
     const y = Math.random() * canvas.height / 2;
-    targets.push(new Target(x, y));
+
+    // Randomly select an image for the target
+    const randomImage = loadedImages[Math.floor(Math.random() * loadedImages.length)];
+    targets.push(new Target(x, y, randomImage));
 }
 
 function shoot(event) {
